@@ -28,18 +28,18 @@ print ("Train set: ")
 print (train_data)
 
 class HardCoded(object):
-    def __init__(self, train_data, train_target):
+    def __init__(self):
+        return
+    def train(self, train_data, train_target):
         self.data = train_data
         self.target = train_target
-        return
-    def train(self):
         return
 
     def predict(self, test_data):
         self.testData = test_data
         return 0
 
-classifier = HardCoded(train_data, train_target)
-classifier.train()
+classifier = HardCoded()
+classifier.train(train_data, train_target)
 print(classifier.predict(test_data))
 
