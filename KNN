@@ -1,0 +1,60 @@
+import random
+import math
+from sklearn import datasets
+iris = datasets.load_iris()
+
+# collaborated with Jacob Casperson
+
+# create a new array that will store the iris data and targets
+myArray = []
+
+#Fill myArray with iris data and target.
+for i, iris.data in enumerate(iris.data):
+    tempTarget = i/50 #assigning targets gives 50 0's, 50 1's, and 50 2's
+    tempArray = [iris.data, tempTarget] #assign targets and data to an array with everything in place
+    myArray.append(tempArray)
+
+#Randomize iris
+random.shuffle(myArray)
+#print(myArray)
+#separate training set and test set
+trainingSet = myArray[:105] #70%
+testSet = myArray[105:]  #30%
+
+class HardCoded:
+    def train(self, trainingSet):
+        return 0
+
+    def predict(self, testSet, trainingSet):
+        predictions = []
+        for i, data in enumerate(testSet):
+            distanceArray= []
+            for j, data in enumerate(trainingSet):
+                t = math.sqrt(math.pow(testSet[i][0][0] - trainingSet[j][0][0], 2) + math.pow(testSet[i][0][1] - trainingSet[j][0][1], 2) + math.pow(testSet[i][0][2] - trainingSet[j][0][2], 2) + math.pow(testSet[i][0][3] - trainingSet[j][0][3], 2))
+                tempArray = [t, trainingSet[j][1]]
+                distanceArray.append(tempArray) # this is the important array of distances and targets. we need to find the smallest distances.
+
+            print  sorted(distanceArray, key=lambda distance: distanceArray[0])
+           # print distanceArray
+            target = 0 #target will equal 0, 1, or 2
+            predictions.append(target)
+        return predictions
+
+    def evauluate(self, predictions, testSet):
+        correctCount = 0.0
+        totalCount = 0.0
+        for i, data in enumerate(testSet):
+            totalCount +=1
+            if predictions[i] == data[1]:
+                correctCount +=1
+        percentage = correctCount / totalCount
+        #print (percentage)
+        return percentage
+
+train = HardCoded()
+
+train.train(trainingSet)
+predictions = train.predict(testSet, trainingSet)# an array of 0's
+percentage =  train.evauluate(predictions, testSet)
+finalAnswer = percentage * 100
+#print("%.2f" % finalAnswer) + "%"
