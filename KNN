@@ -10,8 +10,13 @@ myArray = []
 
 #Fill myArray with iris data and target.
 for i, iris.data in enumerate(iris.data):
-    tempTarget = i/50 #assigning targets gives 50 0's, 50 1's, and 50 2's
-    tempArray = [iris.data, tempTarget] #assign targets and data to an array with everything in place
+    if i <= 49:
+        targets = 0
+    elif i <= 99 and i > 49:
+        targets = 1
+    else:
+        targets = 2
+    tempArray = [iris.data, targets] #assign targets and data to an array with everything in place
     myArray.append(tempArray)
 
 #Randomize iris
@@ -33,9 +38,8 @@ class HardCoded:
                 t = math.sqrt(math.pow(testSet[i][0][0] - trainingSet[j][0][0], 2) + math.pow(testSet[i][0][1] - trainingSet[j][0][1], 2) + math.pow(testSet[i][0][2] - trainingSet[j][0][2], 2) + math.pow(testSet[i][0][3] - trainingSet[j][0][3], 2))
                 tempArray = [t, trainingSet[j][1]]
                 distanceArray.append(tempArray) # this is the important array of distances and targets. we need to find the smallest distances.
-
-            print  sorted(distanceArray, key=lambda distance: distanceArray[0])
-           # print distanceArray
+            distanceArray.sort(key=lambda  ele : ele[0])
+            print(distanceArray)
             target = 0 #target will equal 0, 1, or 2
             predictions.append(target)
         return predictions
