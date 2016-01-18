@@ -3,7 +3,7 @@ import math
 from sklearn import datasets
 iris = datasets.load_iris()
 
-# collaborated with Jacob Casperson
+# collaborated with Jonathan Kwok
 
 # create a new array that will store the iris data and targets
 myArray = []
@@ -31,17 +31,37 @@ class HardCoded:
         return 0
 
     def predict(self, testSet, trainingSet):
+        kCount = 4
         predictions = []
+        top = []
         for i, data in enumerate(testSet):
             distanceArray= []
+            nearestNeighbors = []
             for j, data in enumerate(trainingSet):
                 t = math.sqrt(math.pow(testSet[i][0][0] - trainingSet[j][0][0], 2) + math.pow(testSet[i][0][1] - trainingSet[j][0][1], 2) + math.pow(testSet[i][0][2] - trainingSet[j][0][2], 2) + math.pow(testSet[i][0][3] - trainingSet[j][0][3], 2))
                 tempArray = [t, trainingSet[j][1]]
+                # make an array with distances and targets
                 distanceArray.append(tempArray) # this is the important array of distances and targets. we need to find the smallest distances.
-            distanceArray.sort(key=lambda  ele : ele[0])
-            print(distanceArray)
-            target = 0 #target will equal 0, 1, or 2
+                # sort
+                distanceArray.sort(key=lambda  ele : ele[0])
+                count = 0
+            # grab the nearest neighbors
+            while (count <= kCount):
+                    print("hi")
+                    tempArray2 = distanceArray[count]
+                    nearestNeighbors.append(tempArray2)
+                    count +=1
+            nearestTargets = [x[1] for x in nearestNeighbors]
+
+            from collections import Counter
+            word_counts = Counter(nearestTargets)
+            top = word_counts.most_common(1)
+            print(top)
+            target = top[0][0] #target will equal 0, 1, or 2
             predictions.append(target)
+        print (distanceArray)
+        print (nearestNeighbors)
+        print (nearestTargets)
         return predictions
 
     def evauluate(self, predictions, testSet):
@@ -59,6 +79,7 @@ train = HardCoded()
 
 train.train(trainingSet)
 predictions = train.predict(testSet, trainingSet)# an array of 0's
+print("Predictions:" + str(predictions))
 percentage =  train.evauluate(predictions, testSet)
 finalAnswer = percentage * 100
-#print("%.2f" % finalAnswer) + "%"
+print("%.2f" % finalAnswer + "%")
