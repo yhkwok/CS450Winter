@@ -131,6 +131,8 @@ class NeuralNetwork:
             sum = 0
             for i in range(len(self.inputs)):
                 sum += self.inputs[i].weight * input[1][i]
+                sum *= self.bias * self.inputs[i].weight
+
             if sum > self.threshold:
                 return 1
             else:
@@ -142,7 +144,7 @@ class NeuralNetwork:
                 self.weight = weight
 
 
-the_data_set = Dataset('iris.csv', .3, 42, False)
+the_data_set = Dataset('pima-indians-diabetes.csv', .3, 42, False)
 
 neural = NeuralNetwork(3, the_data_set.data_train, the_data_set.target_train, the_data_set.data_test)
 
